@@ -28,6 +28,13 @@ pipeline {
             }
         }
 
+        stage('Docker Check') {
+            steps {
+                bat 'docker --version'
+                bat 'docker ps'
+            }
+        }
+
         stage('Credentials Test') {
             steps {
                 withCredentials([
