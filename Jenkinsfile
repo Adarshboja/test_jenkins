@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        APP_NAME = 'test-jenkins'
+        ENVIRONMENT = 'dev'
+    }
+
     stages {
 
         stage('Install') {
@@ -11,6 +16,8 @@ pipeline {
 
         stage('Build') {
             steps {
+                echo "Application: ${APP_NAME}"
+                echo "Environment: ${ENVIRONMENT}"
                 bat 'python app.py'
             }
         }
