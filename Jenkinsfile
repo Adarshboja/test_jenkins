@@ -27,5 +27,18 @@ pipeline {
                 bat 'python -m pytest test_app.py'
             }
         }
+
+        stage('Credentials Test') {
+            steps {
+                withCredentials([
+                    string(
+                        credentialsId: 'practice-secret',
+                        variable: 'MY_SECRET'
+                    )
+                ]) {
+                    bat 'echo Credential is available to Jenkins'
+                }
+            }
+        }
     }
 }
