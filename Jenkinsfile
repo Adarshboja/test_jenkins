@@ -35,7 +35,7 @@ pipeline {
             }
         }
 
-        stage('Credentials Test') {
+        stage('Credentials Tests') {
             steps {
                 withCredentials([
                     string(
