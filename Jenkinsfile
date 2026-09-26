@@ -28,12 +28,12 @@ pipeline {
             }
         }
 
-        stage('Docker Check') {
-            steps {
-                bat 'docker --version'
-                bat 'docker ps'
-            }
-        }
+        stage('Docker Build') {
+    steps {
+        bat 'docker build -t jenkins-python-app:%BUILD_NUMBER% .'
+    }
+}
+
 
         stage('Credentials Tests') {
             steps {
