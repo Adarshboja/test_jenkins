@@ -29,10 +29,27 @@ pipeline {
         }
 
         stage('Docker Build') {
-    steps {
-        bat 'docker build -t jenkins-python-app:%BUILD_NUMBER% .'
+              steps {
+                bat 'docker build -t jenkins-python-app:%BUILD_NUMBER% .'
+            }
+        }
+        stage('Docker Push') {
+          steps {
+        withCredentials([usernamePassword(
+            credentialsId: 'dockerhub-creds',
+            usernameVariable: 'DOCKER_USERNAME',
+            passwordVariable: 'DOCKER_TOKEN'
+        )]) {
+            bat '''
+                echo %DOCKER_TOKEN% | docker login -u %DOCKER_USERNAME% --password-stdin
+                docker tag jenkins-python-app:%BUILD_NUMBER% %DOCKER_USERNAME%/jenkins-python-app:%BUILD_NUMBER%
+                docker push %DOCKER_USERNAME%/jenkins-python-app:%BUILD_NUMBER%
+            '''
+        }
     }
 }
+
+
 
 
         stage('Credentials Tests') {
